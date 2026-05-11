@@ -835,7 +835,9 @@
         .bio-scroll {
           display:grid; grid-auto-flow:column; grid-auto-columns:minmax(240px,82%);
           gap:12px; overflow-x:auto; scroll-snap-type:x mandatory;
-          -webkit-overflow-scrolling:touch; padding:8px 0 14px; scrollbar-width:none;
+          -webkit-overflow-scrolling:touch; scrollbar-width:none;
+          padding: 8px max(20px, env(safe-area-inset-right, 0px)) 14px 0;
+          margin-right: calc(max(20px, env(safe-area-inset-right, 0px)) * -1);
         }
         .bio-scroll::-webkit-scrollbar{ display:none; }
         .bio-card {
