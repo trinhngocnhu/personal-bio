@@ -244,7 +244,7 @@
       ],
       contact: [
         { id: 'email', kind: 'email', value: 'nhutn@acb.com', copyable: true },
-        { id: 'phone', kind: 'phone', value: '+84 915 46 7075', copyable: true },
+        { id: 'phone', kind: 'phone', value: '0915 467 075', copyable: true },
         {
           id: 'address', kind: 'address',
           value: 'ACB · PGD Ngô Gia Tự — 424-426 Ngô Gia Tự, P. Vườn Lài, TP. HCM',
@@ -439,22 +439,24 @@
 
       const openExternal = url => e => {
         if (e) e.preventDefault();
-        // Đối với link Zalo trên mobile, sử dụng location.href giúp kích hoạt app ổn định hơn window.open
+        
         const isZalo = url.includes('zalo.me');
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         
+        // Trên mobile, link Zalo ưu tiên dùng location.href để kích hoạt app Zalo nhanh và ổn định nhất
         if (isZalo && isMobile) {
           window.location.href = url;
           return;
         }
-        
+
+        // Thử mở tab mới, nếu bị block (do browser policy hoặc in-app webview) thì chuyển hướng tab hiện tại
         try {
-          const win = window.open(url, '_blank', 'noopener,noreferrer');
-          if (!win || win.closed || typeof win.closed === 'undefined') {
-            window.location.href = url;
+          const newWin = window.open(url, '_blank', 'noopener,noreferrer');
+          if (!newWin || newWin.closed || typeof newWin.closed === 'undefined') {
+            window.top.location.href = url;
           }
         } catch (err) {
-          window.location.href = url;
+          window.top.location.href = url;
         }
       };
 
