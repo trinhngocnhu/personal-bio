@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="theme-color" content="#005BAC"/>
+<meta name="description" content="Trịnh Ngọc Như — Dịch vụ KHCN · ACB"/>
+<title>Trịnh Ngọc Như · BIO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"/>
+<style>
+  :root { --ease-out: cubic-bezier(0.16,1,0.3,1); }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; min-height: 100%; font-family: 'Inter', -apple-system, system-ui, sans-serif; background: #F4F6FA; -webkit-font-smoothing: antialiased; }
+  body.is-dark { background: #050A14; }
+
+  .page { width: 100%; min-height: 100vh; min-height: 100dvh; display: flex; justify-content: center; position: relative; }
+  .page-col { width: 100%; max-width: 480px; position: relative; }
+  @media (min-width: 640px) {
+    .page { padding: 24px 0; }
+    .page-col { box-shadow: 0 24px 48px -12px rgba(16,24,40,0.18); border-radius: 24px; overflow: hidden; background: #fff; }
+    body.is-dark .page-col { background: #0B1220; }
+  }
+  @media (min-width: 1024px) { .page { padding: 48px 0; } }
+
+  .controls {
+    position: absolute; top: max(14px, env(safe-area-inset-top, 14px)); right: 14px;
+    z-index: 50; display: flex; align-items: center; gap: 8px;
+  }
+  .seg {
+    display: flex; padding: 3px;
+    background: rgba(255,255,255,0.85); backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(16,24,40,0.06); border-radius: 9999px;
+    box-shadow: 0 4px 12px rgba(16,24,40,0.06);
+  }
+  body.is-dark .seg { background: rgba(15,26,46,0.7); border-color: rgba(255,255,255,0.08); }
+  .seg button {
+    border: none; background: transparent; padding: 6px 12px;
+    font-size: 12px; font-weight: 600; color: #475467; border-radius: 9999px;
+    cursor: pointer; font-family: inherit;
+    transition: background 0.15s ease-out, color 0.15s ease-out;
+  }
+  body.is-dark .seg button { color: #94A3B8; }
+  .seg button.active { background: #005BAC; color: #fff; }
+  .seg button:not(.active):hover { color: #101828; }
+  body.is-dark .seg button:not(.active):hover { color: #fff; }
+
+  .icon-btn {
+    width: 36px; height: 36px; border-radius: 9999px;
+    border: 1px solid rgba(16,24,40,0.06);
+    background: rgba(255,255,255,0.85); backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    color: #475467; display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer; box-shadow: 0 4px 12px rgba(16,24,40,0.06);
+    transition: color 0.15s ease-out, transform 0.15s ease-out;
+  }
+  .icon-btn:hover { color: #101828; transform: translateY(-1px); }
+  body.is-dark .icon-btn { background: rgba(15,26,46,0.7); border-color: rgba(255,255,255,0.08); color: #94A3B8; }
+  body.is-dark .icon-btn:hover { color: #fff; }
+
+  .page-col .bio1-root {
+    padding-top: 72px !important;
+    padding-left: max(20px, env(safe-area-inset-left, 0px)) !important;
+    padding-right: max(20px, env(safe-area-inset-right, 0px)) !important;
+    padding-bottom: max(40px, env(safe-area-inset-bottom, 24px)) !important;
+  }
+  @media (min-width: 480px) {
+    .page-col .bio1-root { padding-top: 88px !important; padding-bottom: 56px !important; }
+  }
+
+  .toast-stage {
+    position: fixed; left: 0; right: 0;
+    bottom: max(24px, env(safe-area-inset-bottom, 24px));
+    display: flex; justify-content: center; pointer-events: none; z-index: 100; padding: 0 20px;
+  }
+  .toast {
+    background: #101828; color: #fff; padding: 10px 16px; border-radius: 9999px;
+    font-size: 13px; font-weight: 500; box-shadow: 0 12px 32px rgba(16,24,40,0.30);
+    display: inline-flex; align-items: center; gap: 8px;
+    transform: translateY(20px); opacity: 0;
+    transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease-out; max-width: 100%;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast .check {
+    width: 18px; height: 18px; border-radius: 9999px; background: #079455;
+    display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+</style>
+</head>
+<body class="is-light">
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+<script type="text/babel">
+/* ══════════════════════════════════════════
+   DATA + I18N
+══════════════════════════════════════════ */
+const BIO_DATA = {
+  name: 'Trịnh Ngọc Như',
+  avatar: 'uploads/avatar.jpg',
+  referralCode: '9848890',
+  links: [
+    { id: 'fb', kind: 'facebook', handle: 'trinh.ngoc.nhu',  url: 'https://www.facebook.com/trinh.ngoc.nhu.39847' },
+    { id: 'tt', kind: 'tiktok',   handle: '@nhuxinhiu1802',  url: 'https://www.tiktok.com/@nhuxinhiu1802' },
+    { id: 'zl', kind: 'zalo',     handle: '+84 915 46 7075', url: 'https://zalo.me/+84915467075' },
+  ],
+  contact: [
+    { id: 'email', kind: 'email', value: 'nhutn@acb.com', copyable: true },
+    { id: 'phone', kind: 'phone', value: '+84 915 46 7075', copyable: true },
+    {
+      id: 'address', kind: 'address',
+      value:   'ACB · PGD Ngô Gia Tự — 424-426 Ngô Gia Tự, P. Vườn Lài, TP. HCM',
+      valueEn: 'ACB · Ngo Gia Tu Branch — 424-426 Ngo Gia Tu St., Vuon Lai Ward, HCMC',
+      mapUrl:  'https://maps.app.goo.gl/8fu1v9pWT37PscvCA',
+    },
+  ],
+  spotify: {
+    src: 'https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator&theme=0',
+  },
+};
+
+const I18N = {
+  vi: {
+    tagline: 'Dịch vụ KHCN · ACB',
+    bio: 'Đồng hành cùng khách hàng trên hành trình tài chính cá nhân — tư vấn tín dụng, tiết kiệm và đầu tư tại Ngân hàng Á Châu.',
+    primaryCtaDone: 'Đã sao chép!', referralLabel: 'Mã giới thiệu',
+    linksHeading: 'Mạng xã hội', contactHeading: 'Liên hệ trực tiếp', musicHeading: 'Đang nghe',
+    copy: 'Sao chép', copied: 'Đã sao chép',
+    footerLine: 'Trinh Ngoc Nhu · ACB',
+    facebook: 'Facebook', tiktok: 'TikTok', email: 'Email', phone: 'Điện thoại', address: 'Địa chỉ',
+  },
+  en: {
+    tagline: 'Banker · ACB',
+    bio: 'Walking with clients along their personal finance journey — credit, savings and investment advisory at Asia Commercial Bank.',
+    primaryCtaDone: 'Copied!', referralLabel: 'Referral code',
+    linksHeading: 'Social', contactHeading: 'Get in touch', musicHeading: 'Now playing',
+    copy: 'Copy', copied: 'Copied',
+    footerLine: 'Trinh Ngoc Nhu · ACB',
+    facebook: 'Facebook', tiktok: 'TikTok', email: 'Email', phone: 'Phone', address: 'Address',
+  },
+};
+
+/* ══════════════════════════════════════════
+   ICONS
+══════════════════════════════════════════ */
+const Icon = {
+  facebook: ({ size=20 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.51 1.49-3.9 3.77-3.9 1.09 0 2.24.2 2.24.2v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.91h-2.33V22c4.78-.8 8.44-4.95 8.44-9.94Z"/></svg>),
+  zalo: ({ size=20 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.5 2 2 5.8 2 10.5c0 2.6 1.4 4.9 3.6 6.5L4.8 21l4-2.2c1 .3 2.1.4 3.2.4 5.5 0 10-3.8 10-8.7S17.5 2 12 2Z"/><text x="12" y="13.5" textAnchor="middle" fontSize="7" fontWeight="700" fill="#fff" fontFamily="Inter,sans-serif">Zalo</text></svg>),
+  tiktok: ({ size=20 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.6 6.7a5.7 5.7 0 0 1-3.5-1.2A5.6 5.6 0 0 1 14 1.7h-3.2v13.5a2.7 2.7 0 1 1-2.7-2.7c.27 0 .53.04.78.11V9.36a5.9 5.9 0 1 0 5.12 5.85V8.86a8.8 8.8 0 0 0 5.6 1.95V7.6c-.01 0-.01-.9 0-.9Z"/></svg>),
+  mail: ({ size=20, stroke=1.8 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={stroke} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>),
+  pin:  ({ size=20, stroke=1.8 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={stroke} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>),
+  phone:({ size=20, stroke=1.8 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={stroke} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.33 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>),
+  copy: ({ size=16, stroke=1.8 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={stroke} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>),
+  check:({ size=16, stroke=2.2 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={stroke} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg>),
+  arrow:({ size=16, stroke=1.8 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={stroke} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>),
+  sun:  ({ size=18, stroke=1.8 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={stroke} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>),
+  moon: ({ size=18, stroke=1.8 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={stroke} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>),
+  verified: ({ size=16 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 1 2.4 2.4 3.4-.4.7 3.3 3 1.6-1.5 3 1.5 3-3 1.6-.7 3.3-3.4-.4L12 23l-2.4-2.4-3.4.4-.7-3.3-3-1.6 1.5-3-1.5-3 3-1.6.7-3.3 3.4.4L12 1Z"/><path d="m8.5 12 2.5 2.5L16 9.5" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>),
+  acb:  ({ size=18 }) => (<svg width={size} height={size} viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M5 24 10 8h3l5 16h-3l-1.1-3.7H9.1L8 24H5Zm4.7-6.1h3.5L11.5 12l-1.8 5.9Z"/><path d="M19 14a4 4 0 0 1 4-4h4v2.6h-4a1.4 1.4 0 0 0 0 2.8h2a3.6 3.6 0 1 1 0 7.2h-4V20h4a1 1 0 0 0 0-2h-2a4 4 0 0 1-4-4Z"/></svg>),
+};
+
+/* ══════════════════════════════════════════
+   CREDIT CARDS CAROUSEL
+══════════════════════════════════════════ */
+const ACB_CARDS = [
+  { id:'visa-platinum',   name:'Thẻ ACB Visa Platinum',   nameEn:'ACB Visa Platinum',   sub:'Ưu đãi mỗi ngày, tiện ích mọi chi tiêu',          subEn:'Daily rewards, everyday convenience',       img:'uploads/Thẻ ACB Visa Platinum.png',   detailUrl:'https://acb.com.vn/the/the-acb-visa-platinum',   tag:'HOT' },
+  { id:'visa-signature',  name:'Thẻ ACB Visa Signature',  nameEn:'ACB Visa Signature',  sub:'Vạn hành trình – Muôn sắc sống',                  subEn:'Every journey, every shade of life',        img:'uploads/Thẻ ACB Visa Signature.png',  detailUrl:'https://acb.com.vn/the/the-acb-visa-signature',  tag:'HOT' },
+  { id:'jcb-gold',        name:'Thẻ ACB JCB Gold',        nameEn:'ACB JCB Gold',        sub:'Đáp ứng nhu cầu tài chính ngắn hạn',               subEn:'Built for short-term financial needs',      img:'uploads/Thẻ ACB JCB Gold.png',        detailUrl:'https://acb.com.vn/the/the-acb-jcb-gold',        tag:null },
+  { id:'visa-gold',       name:'Thẻ ACB Visa Gold',       nameEn:'ACB Visa Gold',       sub:'Tích điểm không giới hạn, hoàn phí thường niên',  subEn:'Unlimited rewards, annual fee waiver',      img:'uploads/Thẻ ACB Visa Gold.png',       detailUrl:'https://acb.com.vn/the/the-acb-visa-gold',       tag:null },
+  { id:'mastercard-gold', name:'Thẻ ACB MasterCard Gold', nameEn:'ACB MasterCard Gold', sub:'Thanh toán linh hoạt, ưu đãi đa dạng',             subEn:'Flexible payments, diverse benefits',       img:'uploads/Thẻ ACB MasterCard Gold.png', detailUrl:'https://acb.com.vn/the/the-acb-mastercard-gold', tag:null },
+  { id:'visa-digi',       name:'Thẻ ACB Visa Digi',       nameEn:'ACB Visa Digi',       sub:'Thẻ số, mở nhanh, chi tiêu thông minh',            subEn:'Digital card, instant open, smart spend',   img:'uploads/Thẻ ACB Visa Digi.png',       detailUrl:'https://acb.com.vn/the/the-acb-visa-digi',       tag:null },
+  { id:'express',         name:'Thẻ ACB Express',         nameEn:'ACB Express',         sub:'Miễn phí rút tiền, trả góp từ 1 triệu đồng',      subEn:'Free withdrawal, installments from 1M VND', img:'uploads/Thẻ ACB Express.png',         detailUrl:'https://acb.com.vn/the/the-acb-express',         tag:null },
+];
+
+function BioCards({ lang, dark, zaloUrl, openExternal }) {
+  const scrollRef = React.useRef(null);
+  const [canLeft,  setCanLeft]  = React.useState(false);
+  const [canRight, setCanRight] = React.useState(true);
+
+  const checkScroll = () => {
+    const el = scrollRef.current; if (!el) return;
+    setCanLeft(el.scrollLeft > 4);
+    setCanRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
+  };
+  React.useEffect(() => {
+    const el = scrollRef.current; if (!el) return;
+    checkScroll();
+    el.addEventListener('scroll', checkScroll, { passive: true });
+    window.addEventListener('resize', checkScroll);
+    return () => { el.removeEventListener('scroll', checkScroll); window.removeEventListener('resize', checkScroll); };
+  }, []);
+
+  const scroll = dir => {
+    const el = scrollRef.current; if (!el) return;
+    el.scrollBy({ left: dir * ((el.querySelector('.bio-card')?.offsetWidth || 260) + 12), behavior: 'smooth' });
+  };
+
+  const tc = lang === 'en'
+    ? { heading:'Featured credit cards', consult:'Get advice',   details:'View details' }
+    : { heading:'Thẻ tín dụng nổi bật',  consult:'Tư vấn thêm', details:'Xem chi tiết' };
+
+  const bg  = dark ? '#0B1220' : '#FFFFFF';
+  const bdr = dark ? 'rgba(255,255,255,0.08)' : '#EAECF0';
+  const acc = dark ? '#9CC3F0' : '#005BAC';
+
+  return (
+    <div className="bio1-section">
+      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 4px', marginBottom:'2px' }}>
+        <div className="bio1-section-title" style={{ marginBottom:0 }}>{tc.heading}</div>
+        <div className="bio-nav">
+          <button className="bio-arrow" onClick={() => scroll(-1)} disabled={!canLeft} aria-label="Previous">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+          </button>
+          <button className="bio-arrow" onClick={() => scroll(1)} disabled={!canRight} aria-label="Next">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div className="bio-scroll" ref={scrollRef}>
+        {ACB_CARDS.map((card, idx) => (
+          <div key={card.id} className="bio-card bio1-anim" style={{ animationDelay:`${0.55+idx*0.08}s` }}>
+            <div className="bio-card-hero">
+              <img className="bio-card-bg" src="uploads/background.png" alt="" loading="lazy"/>
+              {card.tag && <span className="bio-card-tag">{card.tag}</span>}
+              <div className="bio-card-img-wrap">
+                <img className="bio-card-img" src={card.img} alt={card.name} loading="lazy"/>
+              </div>
+            </div>
+            <div className="bio-card-body">
+              <div className="bio-card-title">{lang==='en' ? card.nameEn : card.name}</div>
+              <div className="bio-card-sub">{lang==='en' ? card.subEn : card.sub}</div>
+              <div className="bio-card-actions">
+                <button className="bio-btn bio-btn-primary" onClick={openExternal(zaloUrl)}>{tc.consult}</button>
+                <button className="bio-btn bio-btn-secondary" onClick={openExternal(card.detailUrl)}>{tc.details}</button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <style>{`
+        .bio-nav { display:none; gap:6px; }
+        @media(min-width:640px){ .bio-nav { display:flex; } }
+        .bio-arrow {
+          width:32px; height:32px; border-radius:9999px; border:1px solid ${bdr};
+          background:${bg}; color:${dark?'#94A3B8':'#475467'};
+          display:inline-flex; align-items:center; justify-content:center; cursor:pointer;
+          transition:background 0.15s,color 0.15s,opacity 0.15s;
+        }
+        .bio-arrow:hover:not(:disabled){ background:${dark?'rgba(0,91,172,0.18)':'#F0F7FE'}; color:${acc}; }
+        .bio-arrow:disabled{ opacity:0.3; cursor:default; }
+        .bio-scroll {
+          display:grid; grid-auto-flow:column; grid-auto-columns:minmax(240px,82%);
+          gap:12px; overflow-x:auto; scroll-snap-type:x mandatory;
+          -webkit-overflow-scrolling:touch; padding:8px 0 14px; scrollbar-width:none;
+        }
+        .bio-scroll::-webkit-scrollbar{ display:none; }
+        .bio-card {
+          scroll-snap-align:start; background:${bg}; border:1px solid ${bdr};
+          border-radius:18px; overflow:hidden; display:flex; flex-direction:column;
+          box-shadow:0 1px 2px rgba(16,24,40,0.04),0 6px 16px -8px rgba(16,24,40,0.08);
+          transition:transform 0.2s var(--ease-out),box-shadow 0.2s;
+        }
+        .bio-card:hover{ transform:translateY(-2px); box-shadow:0 4px 12px rgba(16,24,40,0.06),0 16px 28px -12px rgba(0,91,172,0.18); }
+        .bio-card-hero{ position:relative; aspect-ratio:16/11; overflow:hidden; border-radius:18px 18px 0 0; display:flex; align-items:center; justify-content:center; }
+        .bio-card-bg{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; }
+        .bio-card-tag{ position:absolute; top:0; right:0; background:#E03131; color:#fff; font-size:10px; font-weight:700; letter-spacing:0.08em; padding:5px 14px 5px 18px; clip-path:polygon(0% 0%,100% 0%,100% 100%,20% 100%); z-index:3; }
+        .bio-card-img-wrap{ position:relative; z-index:1; width:52%; max-width:160px; filter:drop-shadow(0 12px 28px rgba(0,0,0,0.22)) drop-shadow(0 4px 8px rgba(0,0,0,0.14)); transition:transform 0.35s var(--ease-out); }
+        .bio-card:hover .bio-card-img-wrap{ transform:translateY(-4px) scale(1.03); }
+        .bio-card-img{ width:100%; height:auto; display:block; border-radius:10px; }
+        .bio-card-body{ padding:14px 16px 16px; display:flex; flex-direction:column; gap:4px; flex:1; }
+        .bio-card-title{ font-size:15px; font-weight:700; letter-spacing:-0.01em; color:${dark?'#fff':'#101828'}; }
+        .bio-card-sub{ font-size:12.5px; line-height:1.4; color:${dark?'#94A3B8':'#667085'}; min-height:36px; }
+        .bio-card-actions{ display:flex; flex-direction:column; gap:8px; margin-top:12px; }
+        .bio-btn{ width:100%; height:40px; border-radius:9999px; border:1px solid transparent; font-family:'Inter',-apple-system,system-ui,sans-serif; font-size:13px; font-weight:600; cursor:pointer; transition:background 0.15s,color 0.15s,transform 0.15s,border-color 0.15s; display:inline-flex; align-items:center; justify-content:center; gap:6px; }
+        .bio-btn:active{ transform:scale(0.98); }
+        .bio-btn-primary{ background:#005BAC; color:#fff; box-shadow:0 4px 10px rgba(0,91,172,0.25); }
+        .bio-btn-primary:hover{ background:#003E7A; }
+        .bio-btn-secondary{ background:transparent; color:${acc}; border-color:${dark?'rgba(156,195,240,0.30)':'#DBEAFB'}; }
+        .bio-btn-secondary:hover{ background:${dark?'rgba(28,90,160,0.18)':'#F0F7FE'}; border-color:${dark?'rgba(156,195,240,0.50)':'#BFD7F4'}; }
+      `}</style>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════
+   LAYOUT
+══════════════════════════════════════════ */
+function BioLayout({ theme, lang, copied, onCopyReferral, onCopyContact }) {
+  const t    = I18N[lang];
+  const dark = theme === 'dark';
+  const { name, avatar, referralCode, links, contact, spotify } = BIO_DATA;
+
+  const surface       = dark ? '#111C32' : '#FFFFFF';
+  const surfaceAlt    = dark ? '#162340' : '#F9FAFB';
+  const border        = dark ? 'rgba(255,255,255,0.12)' : '#EAECF0';
+  const textPrimary   = dark ? '#FFFFFF' : '#101828';
+  const textSecondary = dark ? '#CBD5E1' : '#475467';
+  const textTertiary  = dark ? '#94A3B8' : '#667085';
+
+  const openExternal = url => e => {
+    if (e) e.preventDefault();
+    try { window.open(url, '_blank', 'noopener,noreferrer'); }
+    catch (err) { window.top.location.href = url; }
+  };
+
+  const linkRow = (link, idx) => {
+    const cfg =
+      link.kind === 'facebook' ? { G: Icon.facebook, label: t.facebook, sub: link.handle, color: '#1877F2' } :
+      link.kind === 'tiktok'   ? { G: Icon.tiktok,   label: t.tiktok,   sub: link.handle, color: dark?'#fff':'#000' } :
+                                 { G: Icon.zalo,     label: 'Zalo',     sub: link.handle, color: '#0068FF' };
+    return (
+      <a key={link.id} href={link.url} target="_blank" rel="noreferrer"
+        onClick={openExternal(link.url)}
+        className="bio1-row bio1-anim" style={{ animationDelay:`${0.25+idx*0.06}s` }}>
+        <div className="bio1-row-icon" style={{ color:cfg.color }}><cfg.G size={22}/></div>
+        <div className="bio1-row-text">
+          <div className="bio1-row-label">{cfg.label}</div>
+          <div className="bio1-row-sub">{cfg.sub}</div>
+        </div>
+        <div className="bio1-row-arrow"><Icon.arrow size={16}/></div>
+      </a>
+    );
+  };
+
+  const contactRow = (c, idx) => {
+    if (c.kind === 'address') {
+      const val = lang==='en' && c.valueEn ? c.valueEn : c.value;
+      return (
+        <a key={c.id} href={c.mapUrl} target="_blank" rel="noreferrer"
+          onClick={openExternal(c.mapUrl)}
+          className="bio1-row bio1-anim" style={{ animationDelay:`${0.45+idx*0.06}s` }}>
+          <div className="bio1-row-icon bio1-row-icon-tinted"><Icon.pin size={20}/></div>
+          <div className="bio1-row-text">
+            <div className="bio1-row-label">{t.address}</div>
+            <div className="bio1-row-sub" style={{ whiteSpace:'normal', lineHeight:1.4, overflow:'visible', textOverflow:'clip' }}>{val}</div>
+          </div>
+          <div className="bio1-row-arrow"><Icon.arrow size={16}/></div>
+        </a>
+      );
+    }
+    const Glyph = c.kind==='email' ? Icon.mail : Icon.phone;
+    const label = c.kind==='email' ? t.email : t.phone;
+    return (
+      <div key={c.id} className="bio1-row bio1-anim" style={{ animationDelay:`${0.45+idx*0.06}s` }}>
+        <div className="bio1-row-icon bio1-row-icon-tinted"><Glyph size={20}/></div>
+        <div className="bio1-row-text">
+          <div className="bio1-row-label">
+            {label}
+            {c.kind==='phone' && <span className="bio1-zalo-badge">(Zalo)</span>}
+          </div>
+          <div className="bio1-row-sub bio1-mono">{c.value}</div>
+        </div>
+        <button className="bio1-copy" onClick={() => onCopyContact(c.id, c.value)} aria-label={t.copy}>
+          {copied===c.id ? <Icon.check size={14}/> : <Icon.copy size={14}/>}
+        </button>
+      </div>
+    );
+  };
+
+  return (
+    <div className={`bio1-root ${dark?'is-dark':'is-light'}`}>
+      <style>{`
+        .bio1-root {
+          --acb-600:#005BAC; --acb-700:#003E7A; --acb-500:#1A6FB8;
+          --acb-100:#DBEAFB; --acb-50:#F0F7FE;
+          --acb-accent:${dark?'#9CC3F0':'#005BAC'};
+          --surface:${surface}; --surface-alt:${surfaceAlt}; --border:${border};
+          --text-primary:${textPrimary}; --text-secondary:${textSecondary}; --text-tertiary:${textTertiary};
+          width:100%; min-height:100%;
+          background:${dark
+            ?'radial-gradient(120% 60% at 50% -10%,rgba(0,91,172,0.55) 0%,rgba(0,62,122,0) 60%),#050A14'
+            :'radial-gradient(120% 60% at 50% -10%,#DBEAFB 0%,#F8FAFC 55%,#FFFFFF 100%)'};
+          padding:80px 20px 40px; box-sizing:border-box;
+          color:var(--text-primary); font-family:'Inter',-apple-system,system-ui,sans-serif;
+        }
+        .bio1-anim{ opacity:0; transform:translateY(8px); animation:bio1-in 0.6s cubic-bezier(0.16,1,0.3,1) forwards; }
+        @keyframes bio1-in{ to{ opacity:1; transform:translateY(0); } }
+        .bio1-header{ text-align:center; }
+        .bio1-avatar-wrap{ width:96px; height:96px; border-radius:9999px; margin:0 auto; padding:3px; background:linear-gradient(135deg,#005BAC,#1A6FB8); box-shadow:0 8px 24px rgba(0,91,172,0.35); }
+        .bio1-avatar{ width:100%; height:100%; border-radius:9999px; object-fit:cover; display:block; background:${surfaceAlt}; }
+        .bio1-name-row{ display:flex; align-items:center; justify-content:center; gap:6px; margin-top:16px; }
+        .bio1-name{ font-size:22px; font-weight:700; letter-spacing:-0.02em; color:var(--text-primary); }
+        .bio1-verified{ color:var(--acb-600); display:inline-flex; }
+        .bio1-tagline-pill{ display:inline-flex; align-items:center; gap:6px; padding:4px 10px; margin-top:8px; border-radius:9999px; background:${dark?'rgba(28,90,160,0.30)':'var(--acb-50)'}; color:var(--acb-accent); font-size:12px; font-weight:600; border:1px solid ${dark?'rgba(156,195,240,0.30)':'var(--acb-100)'}; }
+        .bio1-bio{ margin:12px auto 0; max-width:280px; font-size:13.5px; line-height:1.55; color:var(--text-secondary); }
+        .bio1-cta{ margin:24px 0 28px; width:100%; background:var(--acb-600); color:#fff; border:none; border-radius:14px; padding:14px 16px; display:flex; align-items:center; justify-content:space-between; gap:12px; cursor:pointer; box-shadow:0 8px 20px rgba(0,91,172,0.35); transition:transform 0.15s,background 0.15s,box-shadow 0.15s; font-family:inherit; }
+        .bio1-cta:hover{ background:var(--acb-700); }
+        .bio1-cta:active{ transform:scale(0.98); }
+        .bio1-cta-left{ display:flex; flex-direction:column; align-items:flex-start; gap:4px; text-align:left; }
+        .bio1-cta-label{ font-size:11px; font-weight:500; letter-spacing:0.04em; text-transform:uppercase; opacity:0.75; }
+        .bio1-cta-value{ font-family:'Inter',-apple-system,system-ui,sans-serif; font-size:18px; font-weight:700; letter-spacing:0.02em; font-variant-numeric:tabular-nums; }
+        .bio1-cta-right{ display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; padding:8px 12px; background:rgba(255,255,255,0.18); border-radius:9999px; min-width:120px; justify-content:center; font-family:'Inter',-apple-system,system-ui,sans-serif; }
+        .bio1-section{ margin-bottom:24px; }
+        .bio1-section-title{ font-size:11px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:var(--text-tertiary); margin:0 4px 10px; }
+        .bio1-stack{ display:flex; flex-direction:column; gap:8px; }
+        .bio1-row{ display:flex; align-items:center; gap:12px; padding:12px 14px; background:var(--surface); border:1px solid var(--border); border-radius:12px; color:var(--text-primary); text-decoration:none; box-shadow:0 1px 2px rgba(16,24,40,0.04); transition:transform 0.15s var(--ease-out),border-color 0.15s,background 0.15s; }
+        a.bio1-row:hover{ border-color:${dark?'rgba(156,195,240,0.40)':'var(--acb-100)'}; background:${dark?'rgba(28,90,160,0.18)':'var(--acb-50)'}; transform:translateY(-1px); }
+        a.bio1-row:active{ transform:translateY(0); }
+        .bio1-row-icon{ width:40px; height:40px; flex-shrink:0; border-radius:10px; background:${dark?'rgba(255,255,255,0.05)':'#F2F4F7'}; display:flex; align-items:center; justify-content:center; }
+        .bio1-row-icon-tinted{ background:${dark?'rgba(28,90,160,0.30)':'var(--acb-50)'}; color:var(--acb-accent); }
+        .bio1-row-text{ flex:1; min-width:0; }
+        .bio1-row-label{ font-size:14px; font-weight:600; color:var(--text-primary); }
+        .bio1-row-sub{ font-size:12px; color:var(--text-tertiary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-family:'Inter',-apple-system,system-ui,sans-serif; }
+        .bio1-mono{ font-size:12px; font-variant-numeric:tabular-nums; }
+        .bio1-zalo-badge{ margin-left:6px; font-size:10.5px; font-weight:700; background:linear-gradient(90deg,#6366F1 0%,#A855F7 45%,#EC4899 100%); -webkit-background-clip:text; background-clip:text; color:transparent; vertical-align:1px; }
+        .bio1-row-arrow{ color:var(--text-tertiary); opacity:0.6; transition:transform 0.15s,opacity 0.15s; }
+        a.bio1-row:hover .bio1-row-arrow{ color:var(--acb-accent); opacity:1; transform:translateX(2px); }
+        .bio1-copy{ width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:8px; background:${dark?'rgba(255,255,255,0.06)':'#F2F4F7'}; border:none; color:var(--text-tertiary); cursor:pointer; transition:background 0.15s,color 0.15s; font-family:inherit; }
+        .bio1-copy:hover{ background:${dark?'rgba(28,90,160,0.40)':'var(--acb-100)'}; color:var(--acb-accent); }
+        .bio1-music{ margin-top:4px; border-radius:14px; overflow:hidden; background:var(--surface); border:1px solid var(--border); }
+        .bio1-music iframe{ display:block; border:0; width:100%; }
+        .bio1-footer{ margin-top:28px; text-align:center; font-size:11px; color:var(--text-tertiary); display:flex; align-items:center; justify-content:center; gap:6px; }
+      `}</style>
+
+      {/* Header */}
+      <div className="bio1-header bio1-anim" style={{ animationDelay:'0.05s' }}>
+        <div className="bio1-avatar-wrap">
+          <img className="bio1-avatar" src={avatar} alt={name}/>
+        </div>
+        <div className="bio1-name-row">
+          <div className="bio1-name">{name}</div>
+          <span className="bio1-verified" title="ACB"><Icon.verified size={16}/></span>
+        </div>
+        <div className="bio1-tagline-pill">{t.tagline}</div>
+        <p className="bio1-bio">{t.bio}</p>
+      </div>
+
+      {/* CTA — Copy referral code */}
+      <button className="bio1-cta bio1-anim" style={{ animationDelay:'0.18s' }} onClick={onCopyReferral}>
+        <div className="bio1-cta-left">
+          <span className="bio1-cta-label">{t.referralLabel}</span>
+          <span className="bio1-cta-value">{referralCode}</span>
+        </div>
+        <span className="bio1-cta-right">
+          {copied==='referral'
+            ? <><Icon.check size={14}/> {t.primaryCtaDone}</>
+            : <><Icon.copy  size={14}/> Sao chép</>}
+        </span>
+      </button>
+
+      {/* Social links */}
+      <div className="bio1-section">
+        <div className="bio1-section-title">{t.linksHeading}</div>
+        <div className="bio1-stack">{links.map(linkRow)}</div>
+      </div>
+
+      {/* Contact */}
+      <div className="bio1-section">
+        <div className="bio1-section-title">{t.contactHeading}</div>
+        <div className="bio1-stack">{contact.map(contactRow)}</div>
+      </div>
+
+      {/* Credit cards */}
+      <BioCards lang={lang} dark={dark} zaloUrl="https://zalo.me/+84915467075" openExternal={openExternal}/>
+
+      {/* Spotify */}
+      <div className="bio1-section">
+        <div className="bio1-section-title">{t.musicHeading}</div>
+        <div className="bio1-music bio1-anim" style={{ animationDelay:'0.55s' }}>
+          <iframe src={spotify.src} width="100%" height="152" frameBorder="0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy" title="Spotify"/>
+        </div>
+      </div>
+
+      <div className="bio1-footer">
+        <Icon.acb size={12}/> {t.footerLine}
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════
+   APP
+══════════════════════════════════════════ */
+function App() {
+  const [theme,  setTheme]  = React.useState(() => { try { return localStorage.getItem('bio-theme') || 'light'; } catch(e){ return 'light'; } });
+  const [lang,   setLang]   = React.useState(() => { try { return localStorage.getItem('bio-lang')  || 'vi';    } catch(e){ return 'vi';    } });
+  const [copied, setCopied] = React.useState(null);
+  const [toast,  setToast]  = React.useState(null);
+
+  React.useEffect(() => {
+    document.body.classList.toggle('is-dark',  theme==='dark');
+    document.body.classList.toggle('is-light', theme!=='dark');
+    try { localStorage.setItem('bio-theme', theme); } catch(e){}
+    const m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.setAttribute('content', theme==='dark' ? '#050A14' : '#005BAC');
+  }, [theme]);
+
+  React.useEffect(() => {
+    document.documentElement.lang = lang;
+    try { localStorage.setItem('bio-lang', lang); } catch(e){}
+  }, [lang]);
+
+  const execCopy = val => {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = val;
+      Object.assign(ta.style, { position:'fixed', top:'0', left:'0', opacity:'0' });
+      ta.setAttribute('readonly','');
+      document.body.appendChild(ta);
+      ta.select(); ta.setSelectionRange(0, val.length);
+      const ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      return ok;
+    } catch(e){ return false; }
+  };
+
+  const copyToClipboard = val => new Promise(resolve => {
+    let done = false;
+    try {
+      if (navigator.clipboard?.writeText) {
+        navigator.clipboard.writeText(val).then(
+          () => { done=true; resolve(true); },
+          () => { if(!done) resolve(execCopy(val)); }
+        );
+        setTimeout(() => { if(!done) resolve(execCopy(val)); }, 200);
+        return;
+      }
+    } catch(e){}
+    resolve(execCopy(val));
+  });
+
+  const showCopied = (id, val, label) => {
+    copyToClipboard(val);
+    setCopied(id);
+    setToast({ id: Date.now(), label });
+    setTimeout(() => setCopied(c => c===id ? null : c), 1800);
+  };
+
+  React.useEffect(() => {
+    if (!toast) return;
+    const tm = setTimeout(() => setToast(null), 1800);
+    return () => clearTimeout(tm);
+  }, [toast]);
+
+  const t = I18N[lang];
+  return (
+    <>
+      <div className="page">
+        <div className="page-col">
+          <div className="controls">
+            <div className="seg" role="tablist" aria-label="Language">
+              <button className={lang==='vi'?'active':''} onClick={() => setLang('vi')}>VI</button>
+              <button className={lang==='en'?'active':''} onClick={() => setLang('en')}>EN</button>
+            </div>
+            <button className="icon-btn" onClick={() => setTheme(t=>t==='dark'?'light':'dark')} aria-label="Toggle theme">
+              {theme==='dark' ? <Icon.sun size={18}/> : <Icon.moon size={18}/>}
+            </button>
+          </div>
+          <BioLayout
+            theme={theme} lang={lang} copied={copied}
+            onCopyReferral={() => showCopied('referral', BIO_DATA.referralCode, `${t.referralLabel}: ${BIO_DATA.referralCode}`)}
+            onCopyContact={(id, val) => showCopied(id, val, val)}
+          />
+        </div>
+      </div>
+
+      <div className="toast-stage" aria-live="polite">
+        {toast && (
+          <div key={toast.id} className="toast show">
+            <span className="check">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m5 12 5 5L20 7"/></svg>
+            </span>
+            {toast.label}
+          </div>
+        )}
+      </div>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
