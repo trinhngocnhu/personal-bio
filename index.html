@@ -606,14 +606,14 @@
             { G: Icon.zalo, label: 'Zalo', sub: link.handle, color: '#0068FF' };
 
           const isZalo = link.kind === 'zalo';
-          
+
           return (
             <a
               key={link.id}
               href={link.url}
               target={isZalo ? '_self' : '_blank'}
-              rel="noreferrer"
-              onClick={isZalo ? (e) => { e.preventDefault(); openZalo(link.url); } : openExternal(link.url)}
+              rel="noopener noreferrer"
+              onClick={isZalo ? (e) => { e.preventDefault(); openZalo(link.url); } : undefined}
               className="bio1-row bio1-anim"
               style={{ animationDelay: `${0.35 + idx * 0.06}s` }}
             >
