@@ -325,9 +325,9 @@
           </svg>
         ),
         verified: ({ size = 16 }) => (
-          <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="m12 1 2.4 2.4 3.4-.4.7 3.3 3 1.6-1.5 3 1.5 3-3 1.6-.7 3.3-3.4-.4L12 23l-2.4-2.4-3.4.4-.7-3.3-3-1.6 1.5-3-1.5-3 3-1.6.7-3.3 3.4.4L12 1Z" />
-            <path d="m8.5 12 2.5 2.5L16 9.5" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="11" fill="currentColor" />
+            <path d="m7.5 12 3 3 6-6" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         ),
         acb: ({ size = 18 }) => (
@@ -720,7 +720,7 @@
               </div>
               <div className="bio1-name-row">
                 <div className="bio1-name">{name}</div>
-                <span className="bio1-verified" title="ACB"><Icon.verified size={16} /></span>
+                <span className="bio1-verified" title="ACB"><Icon.verified size={20} /></span>
               </div>
               <div className="bio1-tagline-pill">{t.tagline}</div>
               <p className="bio1-bio">{t.bio}</p>
