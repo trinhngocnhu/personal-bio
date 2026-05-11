@@ -357,7 +357,7 @@
 
           <div className="bio-scroll" ref={scrollRef}>
             {ACB_CARDS.map((card, idx) => (
-              <div key={card.id} className="bio-card bio1-anim" style={{ animationDelay: `${0.55 + idx * 0.08}s` }}>
+              <div key={card.id} className="bio-card bio1-anim" style={{ animationDelay: `${0.25 + idx * 0.08}s` }}>
                 <div className="bio-card-hero">
                   <img className="bio-card-bg" src="uploads/background.png" alt="" loading="lazy" />
                   {card.tag && <span className="bio-card-tag">{card.tag}</span>}
@@ -401,14 +401,14 @@
           transition:transform 0.2s var(--ease-out),box-shadow 0.2s;
         }
         .bio-card:hover{ transform:translateY(-2px); box-shadow:0 4px 12px rgba(16,24,40,0.06),0 16px 28px -12px rgba(0,91,172,0.18); }
-        .bio-card-hero{ position:relative; aspect-ratio:16/11; overflow:hidden; border-radius:18px 18px 0 0; display:flex; align-items:center; justify-content:center; }
+        .bio-card-hero{ height: 15rem; position:relative; aspect-ratio:16/11; overflow:hidden; border-radius:18px 18px 0 0; display:flex; align-items:center; justify-content:center; }
         .bio-card-bg{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; }
         .bio-card-tag{ position:absolute; top:0; right:0; background:#E03131; color:#fff; font-size:10px; font-weight:700; letter-spacing:0.08em; padding:5px 14px 5px 18px; clip-path:polygon(0% 0%,100% 0%,100% 100%,20% 100%); z-index:3; }
         .bio-card-img-wrap{ position:relative; z-index:1; width:52%; max-width:160px; filter:drop-shadow(0 12px 28px rgba(0,0,0,0.22)) drop-shadow(0 4px 8px rgba(0,0,0,0.14)); transition:transform 0.35s var(--ease-out); }
         .bio-card:hover .bio-card-img-wrap{ transform:translateY(-4px) scale(1.03); }
         .bio-card-img{ width:100%; height:auto; display:block; border-radius:10px; }
         .bio-card-body{ padding:14px 16px 16px; display:flex; flex-direction:column; gap:4px; flex:1; }
-        .bio-card-title{ font-size:15px; font-weight:700; letter-spacing:-0.01em; color:${dark ? '#fff' : '#101828'}; }
+        .bio-card-title{ font-size:16px; font-weight:700; letter-spacing:-0.01em; color:${dark ? '#fff' : '#101828'}; }
         .bio-card-sub{ font-size:12.5px; line-height:1.4; color:${dark ? '#94A3B8' : '#667085'}; min-height:36px; }
         .bio-card-actions{ display:flex; flex-direction:column; gap:8px; margin-top:12px; }
         .bio-btn{ width:100%; height:40px; border-radius:9999px; border:1px solid transparent; font-family:'Inter',-apple-system,system-ui,sans-serif; font-size:13px; font-weight:600; cursor:pointer; transition:background 0.15s,color 0.15s,transform 0.15s,border-color 0.15s; display:inline-flex; align-items:center; justify-content:center; gap:6px; }
@@ -451,7 +451,7 @@
         return (
           <a key={link.id} href={link.url} target="_blank" rel="noreferrer"
             onClick={openExternal(link.url)}
-            className="bio1-row bio1-anim" style={{ animationDelay: `${0.25 + idx * 0.06}s` }}>
+            className="bio1-row bio1-anim" style={{ animationDelay: `${0.45 + idx * 0.06}s` }}>
             <div className="bio1-row-icon" style={{ color: cfg.color }}><cfg.G size={22} /></div>
             <div className="bio1-row-text">
               <div className="bio1-row-label">{cfg.label}</div>
@@ -468,7 +468,7 @@
           return (
             <a key={c.id} href={c.mapUrl} target="_blank" rel="noreferrer"
               onClick={openExternal(c.mapUrl)}
-              className="bio1-row bio1-anim" style={{ animationDelay: `${0.45 + idx * 0.06}s` }}>
+              className="bio1-row bio1-anim" style={{ animationDelay: `${0.65 + idx * 0.06}s` }}>
               <div className="bio1-row-icon bio1-row-icon-tinted"><Icon.pin size={20} /></div>
               <div className="bio1-row-text">
                 <div className="bio1-row-label">{t.address}</div>
@@ -481,7 +481,7 @@
         const Glyph = c.kind === 'email' ? Icon.mail : Icon.phone;
         const label = c.kind === 'email' ? t.email : t.phone;
         return (
-          <div key={c.id} className="bio1-row bio1-anim" style={{ animationDelay: `${0.45 + idx * 0.06}s` }}>
+          <div key={c.id} className="bio1-row bio1-anim" style={{ animationDelay: `${0.65 + idx * 0.06}s` }}>
             <div className="bio1-row-icon bio1-row-icon-tinted"><Glyph size={20} /></div>
             <div className="bio1-row-text">
               <div className="bio1-row-label">
@@ -531,7 +531,7 @@
         .bio1-cta-value{ font-family:'Inter',-apple-system,system-ui,sans-serif; font-size:18px; font-weight:700; letter-spacing:0.02em; font-variant-numeric:tabular-nums; }
         .bio1-cta-right{ display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; padding:8px 12px; background:rgba(255,255,255,0.18); border-radius:9999px; min-width:120px; justify-content:center; font-family:'Inter',-apple-system,system-ui,sans-serif; }
         .bio1-section{ margin-bottom:24px; }
-        .bio1-section-title{ font-size:11px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:var(--text-tertiary); margin:0 4px 10px; }
+        .bio1-section-title{ font-size:12px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:var(--text-tertiary); margin:0 4px 10px; }
         .bio1-stack{ display:flex; flex-direction:column; gap:8px; }
         .bio1-row{ display:flex; align-items:center; gap:12px; padding:12px 14px; background:var(--surface); border:1px solid var(--border); border-radius:12px; color:var(--text-primary); text-decoration:none; box-shadow:0 1px 2px rgba(16,24,40,0.04); transition:transform 0.15s var(--ease-out),border-color 0.15s,background 0.15s; }
         a.bio1-row:hover{ border-color:${dark ? 'rgba(156,195,240,0.40)' : 'var(--acb-100)'}; background:${dark ? 'rgba(28,90,160,0.18)' : 'var(--acb-50)'}; transform:translateY(-1px); }
@@ -539,7 +539,7 @@
         .bio1-row-icon{ width:40px; height:40px; flex-shrink:0; border-radius:10px; background:${dark ? 'rgba(255,255,255,0.05)' : '#F2F4F7'}; display:flex; align-items:center; justify-content:center; }
         .bio1-row-icon-tinted{ background:${dark ? 'rgba(28,90,160,0.30)' : 'var(--acb-50)'}; color:var(--acb-accent); }
         .bio1-row-text{ flex:1; min-width:0; }
-        .bio1-row-label{ font-size:14px; font-weight:600; color:var(--text-primary); }
+        .bio1-row-label{ padding-bottom: 3px; font-size:14px; font-weight:600; color:var(--text-primary); }
         .bio1-row-sub{ font-size:12px; color:var(--text-tertiary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-family:'Inter',-apple-system,system-ui,sans-serif; }
         .bio1-mono{ font-size:12px; font-variant-numeric:tabular-nums; }
         .bio1-zalo-badge{ margin-left:6px; font-size:10.5px; font-weight:700; background:linear-gradient(90deg,#6366F1 0%,#A855F7 45%,#EC4899 100%); -webkit-background-clip:text; background-clip:text; color:transparent; vertical-align:1px; }
@@ -578,6 +578,9 @@
             </span>
           </button>
 
+          {/* Credit cards */}
+          <BioCards lang={lang} dark={dark} zaloUrl="https://zalo.me/+84915467075" openExternal={openExternal} />
+
           {/* Social links */}
           <div className="bio1-section">
             <div className="bio1-section-title">{t.linksHeading}</div>
@@ -590,13 +593,10 @@
             <div className="bio1-stack">{contact.map(contactRow)}</div>
           </div>
 
-          {/* Credit cards */}
-          <BioCards lang={lang} dark={dark} zaloUrl="https://zalo.me/+84915467075" openExternal={openExternal} />
-
           {/* Spotify */}
           <div className="bio1-section">
             <div className="bio1-section-title">{t.musicHeading}</div>
-            <div className="bio1-music bio1-anim" style={{ animationDelay: '0.55s' }}>
+            <div className="bio1-music bio1-anim" style={{ animationDelay: '0.85s' }}>
               <iframe src={spotify.src} width="100%" height="152" frameBorder="0"
                 allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                 loading="lazy" title="Spotify" />
