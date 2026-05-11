@@ -310,7 +310,7 @@
       { id: 'express', name: 'Thẻ ACB Express', nameEn: 'ACB Express', sub: 'Miễn phí rút tiền, trả góp từ 1 triệu đồng', subEn: 'Free withdrawal, installments from 1M VND', img: 'uploads/Thẻ ACB Express.png', detailUrl: 'https://acb.com.vn/the/the-acb-express', tag: null },
     ];
 
-    function BioCards({ lang, dark, zaloUrl, openExternal }) {
+    function BioCards({ lang, dark, zaloUrl, openZalo, openExternal }) {
       const scrollRef = React.useRef(null);
       const [canLeft, setCanLeft] = React.useState(false);
       const [canRight, setCanRight] = React.useState(true);
@@ -369,7 +369,7 @@
                   <div className="bio-card-title">{lang === 'en' ? card.nameEn : card.name}</div>
                   <div className="bio-card-sub">{lang === 'en' ? card.subEn : card.sub}</div>
                   <div className="bio-card-actions">
-                    <button className="bio-btn bio-btn-primary" onClick={openExternal(zaloUrl)}>{tc.consult}</button>
+                    <button className="bio-btn bio-btn-primary" onClick={() => openZalo(zaloUrl)}>{tc.consult}</button>
                     <button className="bio-btn bio-btn-secondary" onClick={openExternal(card.detailUrl)}>{tc.details}</button>
                   </div>
                 </div>
@@ -437,21 +437,19 @@
       const textSecondary = dark ? '#CBD5E1' : '#475467';
       const textTertiary = dark ? '#94A3B8' : '#667085';
 
+      // Mở link Zalo: luôn dùng location.href để kích hoạt app Zalo trên mọi nền tảng
+      // (tránh bị chặn bởi popup blocker, in-app webview Facebook/TikTok/Zalo)
+      const openZalo = (url) => {
+        window.location.href = url;
+      };
+
+      // Mở link ngoài (Facebook, TikTok, Google Maps, ACB website…)
+      // Dùng window.open, fallback về location.href nếu bị chặn
       const openExternal = url => e => {
         if (e) e.preventDefault();
-        
-        const isZalo = url.includes('zalo.me');
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-        
-        // Trên mobile, link Zalo ưu tiên dùng location.href để kích hoạt app Zalo nhanh và ổn định nhất
-        if (isZalo && isMobile) {
-          window.location.href = url;
-          return;
-        }
-
-        // Thử mở tab mới, nếu bị block (do browser policy hoặc in-app webview) thì chuyển hướng tab hiện tại
         try {
           const newWin = window.open(url, '_blank', 'noopener,noreferrer');
+          // Nếu popup bị block (trả về null hoặc đóng ngay), fallback
           if (!newWin || newWin.closed || typeof newWin.closed === 'undefined') {
             window.top.location.href = url;
           }
@@ -465,10 +463,22 @@
           link.kind === 'facebook' ? { G: Icon.facebook, label: t.facebook, sub: link.handle, color: '#1877F2' } :
             link.kind === 'tiktok' ? { G: Icon.tiktok, label: t.tiktok, sub: link.handle, color: dark ? '#fff' : '#000' } :
               { G: Icon.zalo, label: 'Zalo', sub: link.handle, color: '#0068FF' };
+
+        // Zalo: dùng <a href> trực tiếp + onClick gọi openZalo (không dùng window.open)
+        const isZalo = link.kind === 'zalo';
         return (
-          <a key={link.id} href={link.url} target="_blank" rel="noreferrer"
-            onClick={openExternal(link.url)}
-            className="bio1-row bio1-anim" style={{ animationDelay: `${0.45 + idx * 0.06}s` }}>
+          <a
+            key={link.id}
+            href={link.url}
+            target={isZalo ? '_self' : '_blank'}
+            rel="noreferrer"
+            onClick={isZalo
+              ? (e) => { e.preventDefault(); openZalo(link.url); }
+              : openExternal(link.url)
+            }
+            className="bio1-row bio1-anim"
+            style={{ animationDelay: `${0.45 + idx * 0.06}s` }}
+          >
             <div className="bio1-row-icon" style={{ color: cfg.color }}><cfg.G size={22} /></div>
             <div className="bio1-row-text">
               <div className="bio1-row-label">{cfg.label}</div>
@@ -596,7 +606,7 @@
           </button>
 
           {/* Credit cards */}
-          <BioCards lang={lang} dark={dark} zaloUrl="https://zalo.me/0915467075" openExternal={openExternal} />
+          <BioCards lang={lang} dark={dark} zaloUrl="https://zalo.me/0915467075" openZalo={openZalo} openExternal={openExternal} />
 
           {/* Social links */}
           <div className="bio1-section">
