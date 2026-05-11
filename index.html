@@ -240,7 +240,7 @@
       links: [
         { id: 'fb', kind: 'facebook', handle: 'trinh.ngoc.nhu', url: 'https://www.facebook.com/trinh.ngoc.nhu.39847' },
         { id: 'tt', kind: 'tiktok', handle: '@nhuxinhiu1802', url: 'https://www.tiktok.com/@nhuxinhiu1802' },
-        { id: 'zl', kind: 'zalo', handle: '+84 915 46 7075', url: 'https://zalo.me/+84915467075' },
+        { id: 'zl', kind: 'zalo', handle: '0915 467 075', url: 'https://zalo.me/0915467075' },
       ],
       contact: [
         { id: 'email', kind: 'email', value: 'nhutn@acb.com', copyable: true },
@@ -439,8 +439,23 @@
 
       const openExternal = url => e => {
         if (e) e.preventDefault();
-        try { window.open(url, '_blank', 'noopener,noreferrer'); }
-        catch (err) { window.top.location.href = url; }
+        // Đối với link Zalo trên mobile, sử dụng location.href giúp kích hoạt app ổn định hơn window.open
+        const isZalo = url.includes('zalo.me');
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        
+        if (isZalo && isMobile) {
+          window.location.href = url;
+          return;
+        }
+        
+        try {
+          const win = window.open(url, '_blank', 'noopener,noreferrer');
+          if (!win || win.closed || typeof win.closed === 'undefined') {
+            window.location.href = url;
+          }
+        } catch (err) {
+          window.location.href = url;
+        }
       };
 
       const linkRow = (link, idx) => {
@@ -579,7 +594,7 @@
           </button>
 
           {/* Credit cards */}
-          <BioCards lang={lang} dark={dark} zaloUrl="https://zalo.me/+84915467075" openExternal={openExternal} />
+          <BioCards lang={lang} dark={dark} zaloUrl="https://zalo.me/0915467075" openExternal={openExternal} />
 
           {/* Social links */}
           <div className="bio1-section">
